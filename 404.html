@@ -1,714 +1,288 @@
-<!doctype html>
-<html class="h-100" lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coin Operated Washing Machines</title>
+<link rel="icon" href="wp-content/uploads/2023/02/cropped-waseek-logo-1-1-32x32.png" sizes="32x32" />
+<link rel="icon" href="wp-content/uploads/2023/02/cropped-waseek-logo-1-1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="wp-content/uploads/2023/02/cropped-waseek-logo-1-1-180x180.png" />
+<meta name="msapplication-TileImage" content="/wp-content/uploads/2023/02/cropped-waseek-logo-1-1-270x270.png" />
+<!-- Boxicons & Bootstrap -->
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-  <head>
-      <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-  <meta name="description" content="A growing collection of ready to use components for the CSS framework Bootstrap 5">
-  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
-<link rel="shortcut icon" href="favicon/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
-<link rel="manifest" href="favicon/site.webmanifest" />
-  <meta name="author" content="Coin Operated Washing Machine">
-  <meta name="generator" content="Coin Operated Washing Machine">
-  <meta name="HandheldFriendly" content="true">
-  <title>Coin Operated Washing Machine</title>
-  <link rel="stylesheet" href="css/theme.min.css">
+<style>
+*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f7f7f7;margin:0;padding:0;height:100vh;overflow:hidden;}
 
-   <style>
-
-/* inter-300 - latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: local(''),
-       url('./fonts/inter-v12-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-       url('./fonts/inter-v12-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+/* Iframe fills page */
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
+/* Floating Buttons */
+.floating-btn {
+  position: fixed;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #c99250;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(201,146,80,0.5);
+  transition: all 0.3s ease, box-shadow 0.5s ease;
+  z-index: 1000;
+}
+.floating-btn:hover {
+  background-color: #d4af37;
+  box-shadow: 0 0 25px rgba(212,175,55,0.8), 0 0 50px rgba(212,175,55,0.4);
+  transform: translateY(-5px);
+}
+
+/* Button Positions */
+.floating-btn.scroll { bottom: 20px; }
+.floating-btn.contact { bottom: 90px; }
+.floating-btn.phone { bottom: 160px; }
+.floating-btn.whatsapp { bottom: 230px; }
+.floating-btn.facebook { bottom: 300px; }
+.floating-btn.instagram { bottom: 370px; }
+.floating-btn.twitter { bottom: 440px; }
+.floating-btn.linkedin { bottom: 510px; }
+
+/* Pulse Animation */
+.floating-btn { animation: pulse 2.5s infinite; }
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(201,146,80,0.4); }
+  50% { box-shadow: 0 0 20px 10px rgba(201,146,80,0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(201,146,80,0.4); }
+}
+
+/* Modal Popup */
+.model {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 300ms ease-in-out;
+  background: #fff;
+  border-radius: 12px;
+  width: 340px;
+  max-width: 90%;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+  z-index: 1001;
+  overflow: hidden;
+}
+.model.active {transform: translate(-50%, -50%) scale(1);}
+.model-header {
+  background: #c99250;
+  color: #fff;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+.model-header .title {font-size: 1.2rem;}
+.model-header .close-button {
+  background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;
+}
+.model-body {padding: 15px;}
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: 200ms ease-in-out;
+  z-index: 1000;
+}
+#overlay.active {opacity: 1; pointer-events: all;}
+
+/* Form Styles */
+form {margin: 0;}
+.textfeild {display: flex; align-items: center; margin-bottom: 12px;}
+#icon {
+  width: 36px; height: 39px;
+  background-color: #c99250;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 4px 0 0 4px;
+  color: #fff;
+}
+input, textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 0 4px 4px 0;
+  padding: 8px;
+  font-size: 14px;
+}
+textarea {height: 60px; resize: none;}
+.reg {
+  width: 100%;
+  background: #c99250;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.reg:hover {background: #d4af37; box-shadow: 0 0 15px rgba(212,175,55,0.6);}
+.reg:disabled {opacity: 0.7; cursor: not-allowed;}
+
+/* Toast Notification */
+.toast-message {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #28a745;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.3s ease;
+  z-index: 2000;
   font-weight: 500;
-  font-display: swap;
-  src: local(''),
-       url('./fonts/inter-v12-latin-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-       url('./fonts/inter-v12-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  pointer-events: none;
+  font-size: 15px;
 }
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local(''),
-       url('./fonts/inter-v12-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-       url('./fonts/inter-v12-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
-
+.toast-message.show {opacity: 1; transform: translateX(-50%) translateY(0);}
+.toast-success {background: #28a745;}
+.toast-error {background: #dc3545;}
 </style>
+</head>
+<body>
 
-  </head>
+<!-- Iframe content area -->
+<iframe src="Coin-Operated-Washing-Machines/contact-us/index.html" id="mainFrame"></iframe>
 
-  <body data-bs-spy="scroll" data-bs-target="#navScroll">
+<!-- Floating Buttons -->
 
-    <nav id="navScroll" class="navbar navbar-expand-lg navbar-light fixed-top" tabindex="0">
-  <div class="container">
-    <a class="navbar-brand pe-4 fs-4" href="/">
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-layers-half" viewbox="0 0 16 16">
-    <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882l-7.5-4zM8 9.433 1.562 6 8 2.567 14.438 6 8 9.433z"/>
-  </svg>
-  <span class="ms-1 fw-bolder">Coin Operated Washing Machine</span>
-</a>
+<a href="tel:+97145647999" class="floating-btn phone" title="Call Now"><i class='bx bx-phone'></i></a>
+<a href="https://wa.me/971566266986" target="_blank" class="floating-btn whatsapp" title="WhatsApp"><i class='bx bxl-whatsapp'></i></a>
+<a href="mailto:info@waseektechnicalservices.com" class="floating-btn contact" title="Email"><i class='bx bx-envelope'></i></a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item">
-    <a class="nav-link" href="#services" aria-label="Brings you to the frontpage">
-      Services
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#aboutus">
-      About us
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#numbers">
-      Numbers
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#gallery">
-      Gallery
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#workwithus">
-      Work with us
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#testimonials">
-      Testimonials
-    </a>
-  </li>
+<!-- Floating Contact Form -->
+<button class="floating-btn contact" data-model-target="#model" title="Contact Form"><i class='bx bx-message-dots'></i></button>
 
-    </ul>
-      <a href="tel:+971564569346" data-splitbee-event="Click Download" aria-label="Download this template" class="link-dark pb-1 link-fancy me-2">
-        +971 56 456 9346      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download ms-1" viewBox="0 0 16 16">
-                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-              </svg>
-      </a>
-
-    </div>
-</div>
-</nav>
-
-    <main>
-      <div class="w-100 overflow-hidden bg-gray-100" id="top">
-  
-<div class="container position-relative">
-  <div class="col-12 col-lg-8 mt-0 h-100 position-absolute top-0 end-0 bg-cover" data-aos="fade-left" style="background-image: url(img/Coin-Operated-Washing-Machines/Coin-Operated-Washing-Machines.jpg);">
-    
+<!-- Contact Form Popup -->
+<div class="model" id="model">
+  <div class="model-header">
+    <div class="title">Contact Us</div>
+    <button data-close-button class="close-button">&times;</button>
   </div>
-    <div class="row">
-
-<div class="col-lg-7 py-vh-6 position-relative" data-aos="fade-right">
-  <h1 class="display-1 fw-bold mt-5">Coin Operated Washing Machine</h1>
-  <p class="lead">Coin-operated washing machines are available for labor camps, staff accommodation, and buildings. We deliver and install the washing machines after just a call</p>
-  <a href="mailto:info@waseektechnicalservices.com" class="btn btn-dark btn-xl shadow me-3 rounded-0 my-5">Email Us</a>
-</div>
-
-
-
-</div>
-</div>
-
-</div>
-
-<div class="py-vh-5 w-100 overflow-hidden" id="services">
-  <div class="container">
-      <div class="row d-flex justify-content-end">
-<div class="col-lg-8" data-aos="fade-down"><h2 class="display-6">We offers best quality coin operated laundry machines in Dubai backed by advanced technology. Best coin counting machine suppliers in UAE.</h2></div>
-</div>
-<div class="row d-flex align-items-center">
-<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-  <span class="h5 fw-lighter">01.</span>
-  <h3 class="py-5 border-top border-dark">Coin operated laundry equipment supplier in Dubai</h3>
-  <p>coin operated liquid detergent dispenser & coin operated washing machines in Dubai, UAE for commercial use at competitive prices.</p>
-  <a href="https://waseektechnicalservices.com/" target="_blank" class="link-fancy">Learn more
-  </a>
-</div>
-
-<div class="col-md-6 col-lg-4 py-vh-4 pb-0" data-aos="fade-up" data-aos-delay="400">
-  <span class="h5 fw-lighter">02.</span>
-  <h3 class="py-5 border-top border-dark">Coin operated laundry equipment supplier in United Arab Emirates</h3>
-  <p>Coin-Operated Washing Machine installation, repair, and maintenance, as well as installation, repair, and maintenance.</p>
-  <a href="https://waseektechnicalservices.com/" target="_blank"  class="link-fancy">Learn more
-  </a>
-</div>
-
-<div class="col-md-6 col-lg-4 py-vh-6 pb-0" data-aos="fade-up" data-aos-delay="600">
-  <span class="h5 fw-lighter">03.</span>
-  <h3 class="py-5 border-top border-dark">Coin operated laundry equipment supplier in Abu Dhabi</h3>
-  <p>We offers best quality coin operated laundry machines in Abu Dhabi backed by advanced technology. Best coin counting machine suppliers in UAE.</p>
-  <a href="https://waseektechnicalservices.com/" target="_blank"  class="link-fancy">Learn more
-  </a>
-</div>
-</div>
-
-  </div>
-</div>
-
-<div class="py-vh-4 bg-gray-100 w-100 overflow-hidden" id="aboutus">
-  <div class="container">
-      
-<div class="row d-flex justify-content-between align-items-center">
-  <div class="col-lg-6">
-  <div class="row gx-5 d-flex">
-    <div class="col-md-11">
-      <div class="shadow ratio ratio-16x9 rounded bg-cover bp-center align-self-end" data-aos="fade-right" style="background-image: url(img/Coin-Operated-Washing-Machines/Laundry-Machines.png);--bs-aspect-ratio: 50%;">
+  <div class="model-body">
+    <form id="submit-form">
+      <div class="textfeild">
+        <label id="icon"><i class='bx bx-user'></i></label>
+        <input type="text" name="name" placeholder="Name" required>
       </div>
-    </div>
-    <div class="col-md-5 offset-md-1">
-      <div class="shadow ratio ratio-1x1 rounded bg-cover mt-5 bp-center float-end" data-aos="fade-up" style="background-image: url(img/Coin-Operated-Washing-Machines/Supply-And-Installation-Of-Air-Conditioners-And-Coolers.jpg);">
+      <div class="textfeild">
+        <label id="icon"><i class='bx bx-envelope'></i></label>
+        <input type="email" name="email" placeholder="Email" required>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="col-12 shadow ratio rounded bg-cover mt-5 bp-center" data-aos="fade-left" style="background-image: url(img/Coin-Operated-Washing-Machines/Coin-Operated-Washing-Machines-AND-Dryers.jpg);--bs-aspect-ratio: 150%;">
+      <div class="textfeild">
+        <label id="icon"><i class='bx bx-mobile-alt'></i></label>
+        <input type="tel" name="phone" placeholder="Mobile Number" required>
       </div>
-    </div>
-  </div>
-</div>
-<div class="col-lg-4">
-  <h3 class="py-5 border-top border-dark" data-aos="fade-left"> UAE-based leading distributor of Coin Operated Washing machines for the MENA region. We take pride in our excellent service.</h3>
-  <p data-aos="fade-left" data-aos-delay="200">Coin operated washing machines Top load & Front load for labor camps in Dubai, Sharjah, We offer a wide range of commercial and domestic coin-operated washing machines. coin acceptor. washers for labor camp.
-  </p>
-  <p>
-    <a href="https://waseektechnicalservices.com/" target="_blank" class="link-fancy link-dark" data-aos="fade-left" data-aos-delay="400">Learn more
-    </a>
-  </p>
-</div>
-</div>
-
-  </div>
-</div>
-
-<div class="py-vh-5 w-100 overflow-hidden" id="numbers">
-  <div class="container">
-      <div class="row d-flex justify-content-between align-items-center">
-  <div class="col-lg-5">
-    <h3 class="py-5 border-top border-dark" data-aos="fade-right">Coin Operated Washing Machines</h3>
-</div>
-<div class="col-lg-6">
-  <div class="row">
-    <div class="col-12">
-    <h2 class="display-6 mb-5" data-aos="fade-down">Leading suppliers and manufacturers of Coin Operated Washing Machines in the UAE and Dubai. Our high-quality Coin Operated Washing Machines</h2>
-    </div>
-    <div class="col-lg-6" data-aos="fade-up">
-      <div class="display-1 fw-bold py-4"> 97156</div>
-      <p class="text-black-50">Our Group Company Quick Clean provides a complete range of commercial laundry equipment, automated payment solutions, products & service </p>
-    </div>
-    <div class="col-lg-6" data-aos="fade-up">
-      <div class="display-1 fw-bold py-4">4569346</div>
-      <p class="text-black-50">We have prepared a short list for you below. It features our collection of coin operated washing machines and tumble dryers available</p>
-    </div>
-  </div>
-</div>
-</div>
-
-  </div>
-</div>
-
-<div class="position-relative overflow-hidden w-100 bg-light" id="gallery">
-  <div class="container-fluid">
-  <div class="row overflow-scroll">
-    <div class="col-12">
-      <div class="row vw-100 px-0 py-vh-5 d-flex align-items-center scrollx">
-        <div class="col-md-2" data-aos="fade-up">
-            <img src="img/Coin-Operated-Washing-Machines/waseek-technical-services-Dubai.png" class="rounded shadow img-fluid" alt="nice gallery image" width="512" height="341">
-        </div>
-
-        <div class="col-md-2" data-aos="fade-up" data-aos-delay="200">
-            <img src="img/Coin-Operated-Washing-Machines/waseek-technical-services.png" class="img-fluid rounded shadow" alt="nice gallery image" width="1164" height="776">
-        </div>
-
-        <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
-            <img src="img/Coin-Operated-Washing-Machines/Coin-Operated-Washing-Machine-installation.jpg" class="img-fluid rounded shadow" alt="nice gallery image" width="844" height="1054">
-        </div>
-
-        <div class="col-md-3" data-aos="fade-up" data-aos-delay="600">
-            <img src="img/Coin-Operated-Washing-Machines/Coin-Operated-Washing-Machine-installation-repair-and-maintenance.png" class="img-fluid rounded shadow" alt="nice gallery image" width="844" height="562">
-        </div>
-
-        <div class="col-md-2" data-aos="fade-up" data-aos-delay="800">
-            <img src="img/Coin-Operated-Washing-Machines/Coin-Operated-Washing-Machine-installation-repair-and-maintenance-uae.png" class="rounded shadow img-fluid" alt="nice gallery image" width="512" height="341">
-        </div>
+      <div class="textfeild">
+        <label id="icon"><i class='bx bxs-message-square-detail'></i></label>
+        <textarea name="message" placeholder="Your Message"></textarea>
       </div>
-    </div>
-   </div>
- </div>
-
-</div>
-
-<div class="container py-vh-4 w-100 overflow-hidden">
-  <div class="row d-flex justify-content-center align-items-center">
-    <div class="col-lg-5">
-  <h3 class="py-5 border-top border-dark" data-aos="fade-right">The Perfect Solution For Coin-Operated Washing Machines</h3>
-</div>
-<div class="col-md-7" data-aos="fade-left">
-  <blockquote>
-    <div class="fs-4 my-3 fw-light pt-4 border-bottom pb-3">Welcome to Waseek Ahmad Air Conditioning and Mechanical Service Est! We are a dedicated team of professionals who specialize in providing top-quality coin-operated washing machines, laundry machines, top-load washing machines, and front-load washing machine services to residential, commercial, and industrial clients. With years of experience in the industry, we pride ourselves on delivering exceptional customer service and reliable solutions that meet our clients’ needs.</div>
-    <img src="img/webp/person11.webp" width="64" height="64" class="img-fluid rounded-circle me-3" alt="" data-aos="fade">
-    <span><span class="fw-bold"></span>
-      </span>
-  </blockquote>
-</div>
-
+      <button type="submit" class="reg">
+        <span class="btn-text">Send Message</span>
+        <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+      </button>
+    </form>
   </div>
 </div>
 
-<div class="py-vh-6 bg-gray-900 text-light w-100 overflow-hidden" id="workwithus">
-  <div class="container">
-    <div class="row d-flex justify-content-center">
-      <div class="row d-flex justify-content-center text-center">
-  <div class="col-lg-8 text-center" data-aos="fade">
-        <p class="text-secondary lead">Services we offer!</p>
-    <h2 class="display-6 mb-5">The Coin-operated Washing Machine Top Loading / Front Loading. For Labor Camp Accommodations/Hotels/Hospitals/ Building Apartments. Top Loading Washing Machines come in 8 KG, 10 KG, 12 KG, and 15kg. Front Loading machines come in 7 KG, 10 KG, and 12 KG.</h2>
-  </div>
-  <div class="col-12">
-    <a href="tel:+971566266986" class="btn btn-warning btn-xl shadow me-3 mt-4" data-aos="fade-down">Get in contact</a>
-  </div>
-</div>
+<div id="overlay"></div>
+<div class="toast-message" id="toast">Message Status</div>
 
-    </div>
-  </div>
-</div>
+<script>
+// Modal open/close
+const openModelButtons = document.querySelectorAll('[data-model-target]');
+const closeModelButtons = document.querySelectorAll('[data-close-button]');
+const overlay = document.getElementById('overlay');
 
-<div class="bg-light w-100 overflow-hidden" id="testimonials">
-  <div class="container py-vh-6">
-    <div class="row d-flex justify-content-center">
-      <div class="col-12 col-lg-10 col-xl-8 text-center">
-  <h2 class="display-6">What People & Clients Think About Us?</h2>
-  <p class="lead">Our spaces and offices are soooooo lovely, no one would give us a negative rating! And look at these trustworthy avatar pictures! Trust us!</p>
-</div>
-<div class="col-12 mt-4">
-  <div class="row row-cols-1 row-cols-md-2 g-5 d-flex align-items-center">
+openModelButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const modal = document.querySelector(button.dataset.modelTarget);
+    openModel(modal);
+  });
+});
+overlay.addEventListener('click', () => {
+  document.querySelectorAll('.model.active').forEach(modal => closeModel(modal));
+});
+closeModelButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const modal = button.closest('.model');
+    closeModel(modal);
+  });
+});
+function openModel(modal){ if(!modal) return; modal.classList.add('active'); overlay.classList.add('active'); }
+function closeModel(modal){ if(!modal) return; modal.classList.remove('active'); overlay.classList.remove('active'); }
 
-    <div class="col-12 col-lg-6 col-xl-4" data-aos="fade-right">
-      <div class="card p-4 mt-3 border-0">
-        <div class="card-body">
-          <div class="text-dark py-2 fs-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
+// Toast
+function showToast(message, type){
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = `toast-message show ${type==="error" ? "toast-error" : "toast-success"}`;
+  setTimeout(()=> toast.classList.remove("show"), 3000);
+}
 
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
+// Form submit
+$("#submit-form").submit(function(e){
+  e.preventDefault();
+  const form = $(this);
+  const button = form.find(".reg");
+  const spinner = button.find(".spinner-border");
+  const text = button.find(".btn-text");
 
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
+  button.prop("disabled", true);
+  spinner.removeClass("d-none");
+  text.text("Sending...");
 
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
+  $.ajax({
+    url:"https://script.google.com/macros/s/AKfycbzeXTB-sMJ2Cfg0Ewj6_HJ7ZMtODMROLNu4SMl9Pe99AOIxAl23IuqwR2oEpVKrCUWElA/exec",
+    data:form.serialize(),
+    method:"POST",
+    success:function(){
+      showToast("✅ Message Sent Successfully!","success");
+      closeModel(document.getElementById("model"));
+      form[0].reset();
+    },
+    error:function(){
+      showToast("⚠️ Something went wrong. Try again.","error");
+    },
+    complete:function(){
+      button.prop("disabled", false);
+      spinner.addClass("d-none");
+      text.text("Send Message");
+    }
+  });
+});
 
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
-  <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z"/>
-</svg>
-</div>
-          <blockquote class="blockquote">
-            <p>"I recently hired them to help with some home renovations, and I couldn't be happier with the results. They were knowledgeable, reliable, and efficient. I appreciated their attention to detail and commitment...."</p>
-          </blockquote>
-          <div class="d-flex justify-content-between border-top pt-3">
-            <div>
-              <span class="h6 fw-5"></span><br>
-              <small class="text-muted"></small>
-            </div>
-            <img src="img/webp/person9.webp" width="48" height="48" class="rounded-circle" alt="" data-aos="fade">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6 col-xl-4">
-      <div class="card p-4 shadow mt-3 border-0" data-aos="fade-down">
-        <div class="card-body">
-          <div class="text-dark py-2 fs-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-  <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-</svg>
-</div>
-          <blockquote class="blockquote">
-            <p>"I am beyond impressed with the quality of work provided. From fixing my leaky faucet to repairing my drywall, everything was done with precision and care. They were very friendly and professional. I highly recommend them..."</p>
-          </blockquote>
-          <div class="d-flex justify-content-between border-top pt-3">
-            <p class="card-text">
-              <span class="h6 fw-5"></span><br>
-              <small class="text-muted"></small>
-            </p>
-            <img src="img/webp/person3.webp" width="48" height="48" class="rounded-circle" alt="" data-aos="fade">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6 col-xl-4">
-      <div class="card p-4 mt-3 border-0" data-aos="fade-left">
-        <div class="card-body">
-          <div class="text-dark py-2 fs-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-  <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-  <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-  <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-</svg>
-</div>
-          <blockquote class="blockquote">
-            <p>"I don´t know if they are good at what they do. But they have nice coffee and a shiny brand new startup office with bikes on the wall and all that stuff."</p>
-          </blockquote>
-          <div class="d-flex justify-content-between border-top pt-3">
-            <p class="card-text">
-              <span class="h6 fw-5"></span><br>
-              <small class="text-muted"></small>
-            </p>
-            <img src="img/webp/person8.webp" width="48" height="48" class="rounded-circle" alt="" data-aos="fade">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6 col-xl-4">
-      <div class="card p-4 mt-3 border-0" data-aos="fade-right">
-        <div class="card-body">
-          <div class="text-dark py-2 fs-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
-  <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-  <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-</svg>
-</div>
-          <blockquote class="blockquote">
-            <p>"I am beyond impressed with the quality of work provided. From fixing my leaky faucet to repairing my drywall, everything was done with precision and care. They were very friendly and professional. I highly recommend them."</p>
-          </blockquote>
-          <div class="d-flex justify-content-between border-top pt-3">
-            <p class="card-text">
-              <span class="h6 fw-5"></span><br>
-              <small class="text-muted"></small>
-            </p>
-            <img src="img/webp/person14.webp" width="48" height="48" class="rounded-circle" alt="" data-aos="fade">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6 col-xl-4">
-      <div class="card p-4 mt-3 border-0" data-aos="fade-up">
-        <div class="card-body">
-          <div class="text-dark py-2 fs-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
-  <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z"/>
-</svg>
-</div>
-          <blockquote class="blockquote">
-            <p>"I am beyond impressed with the quality of work provided. From fixing my leaky faucet to repairing my drywall, everything was done with precision and care. They were very friendly and professional. I highly recommend them..."</p>
-          </blockquote>
-          <div class="d-flex justify-content-between border-top pt-3">
-            <p class="card-text">
-              <span class="h6 fw-5"></span><br>
-              <small class="text-muted"></small>
-            </p>
-            <img src="img/webp/person13.webp" width="48" height="48" class="rounded-circle" alt="" data-aos="fade">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-6 col-xl-4">
-      <div class="card p-4 shadow mt-3 border-0" data-aos="fade-left">
-        <div class="card-body">
-          <div class="text-dark py-2 fs-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-
-</div>
-          <blockquote class="blockquote">
-            <p>"I am beyond impressed with the quality of work provided. From fixing my leaky faucet to repairing my drywall, everything was done with precision and care. They were very friendly and professional. I highly recommend them."</p>
-          </blockquote>
-          <div class="d-flex justify-content-between border-top pt-3">
-            <p class="card-text">
-              <span class="h6 fw-5"></span><br>
-              <small class="text-muted"></small>
-            </p>
-            <img src="img/webp/person18.webp" width="48" height="48" class="rounded-circle" alt="" data-aos="fade">
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-    </div>
-  </div>
-</div>
-
-<div class="small py-vh-3 w-100 overflow-hidden">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-lg-4 border-end" data-aos="fade-up">
-  <div class="d-flex">
-    <div class="col-md-3 flex-fill pt-3 pe-3 pe-md-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-box-seam" viewbox="0 0 16 16">
-        <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
-      </svg>
-    </div>
-    <div class="col-md-9 flex-fill">
-      <h3 class="h5 my-2">Delivery Service</h3>
-      <p>We offers best quality coin operated laundry machines in Dubai backed by advanced technology. Best coin counting machine suppliers in UAE. ...</p>
-    </div>
-  </div>
-</div>
-<div class="col-md-6 col-lg-4 border-end" data-aos="fade-up" data-aos-delay="200">
-  <div class="d-flex">
-    <div class="col-md-3 flex-fill pt-3 pt-3 pe-3 pe-md-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-card-checklist" viewbox="0 0 16 16">
-        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-        <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
-      </svg>
-    </div>
-    <div class="col-md-9 flex-fill">
-      <h3 class="h5 my-2">Independently Checked</h3>
-      <p>We offers best quality coin operated laundry machines in Dubai backed by advanced technology. Best coin counting machine suppliers in UAE.      </p>
-    </div>
-  </div>
-</div>
-
-<div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
-  <div class="d-flex">
-    <div class="col-md-3 flex-fill pt-3 pt-3 pe-3 pe-md-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-window-sidebar" viewbox="0 0 16 16">
-        <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-        <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v2H1V3a1 1 0 0 1 1-1h12zM1 13V6h4v8H2a1 1 0 0 1-1-1zm5 1V6h9v7a1 1 0 0 1-1 1H6z"/>
-      </svg>
-    </div>
-    <div class="col-md-9 flex-fill">
-      <h3 class="h5 my-2">Online Support</h3>
-      <p>We offers best quality coin operated laundry machines in Dubai backed by advanced technology. Best coin counting machine suppliers in UAE.
-      </p>
-    </div>
-  </div>
-</div>
-
-    </div>
-  </div>
-</div>
-
-<div class="container py-vh-3 border-top" data-aos="fade" data-aos-delay="200">
-  <div class="row d-flex justify-content-center">
-    <div class="col-12 col-lg-8 text-center">
-      <h3 class="fs-2 fw-light">Coin-Operated <span class="fw-bold">
-        Washing Machine </span>
-        Services in UAE!
-    </h3></div>
-    <div class="col-12 col-lg-8 text-center">
-      <div class="row">
-        <div class="grouped-inputs border bg-light p-2">
-  <div class="row">
-    <div class="col">
-      <form class="form-floating">
-        <input type="email" class="form-control p-3" id="floatingInput" placeholder="name@example.com">
-        <label for="floatingInput">Email address</label>
-      </form>
-    </div>
-    <div class="col-auto">
-      <a href="#" class="btn btn-dark py-3 px-5">Subscribe</a>
-    </div>
-  </div>
-</div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-    </main>
-
-    <footer>
-  <div class="container small border-top">
-    <div class="row py-5 d-flex justify-content-between">
-
-<div class="col-12 col-lg-6 col-xl-3 border-end p-5">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-layers-half" viewbox="0 0 16 16">
-    <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882l-7.5-4zM8 9.433 1.562 6 8 2.567 14.438 6 8 9.433z"/>
-  </svg>
-  <address class="text-secondary mt-3">
-    <strong>Waseek Ahmad</strong><br>
-    Abella Camp 2 - Muhaisnah 2<br>
-    Dubai, United Arab Emirates<br>
-    <abbr title="Phone">P:</abbr>
-    +971 56 456 9346<br>
-    <abbr title="Phone">P:</abbr>
-    +971 56 626 6986
-  </address>
-</div>
-<div class="col-12 col-lg-6 col-xl-3 border-end p-5">
-  <h3 class="h6 mb-3">Contact</h3>
-  <ul class="nav flex-column">
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" aria-current="page" href="tel:+971564569346">Call in Office</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" href="tel:+971566266986">Call in Mobile</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" href="mailto:info@waseektechnicalservices.com">Email Address</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" href="mailto:info@waseektechnicalservice-uae.com">Email Address</a>
-    </li>
-  </ul>
-</div>
-<div class="col-12 col-lg-6 col-xl-3 border-end p-5">
-  <h3 class="h6 mb-3">Our Services</h3>
-  <ul class="nav flex-column">
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" aria-current="page" href="https://waseektechnicalservices.com/" target="_blank" >Coin Operated Washing Machines</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" href="https://waseektechnicalservices.com/" target="_blank" >Supply And Installation Of Air Conditioners And Coolers</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" href="https://waseektechnicalservices.com/" target="_blank" >Laundry Machines</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" href="https://waseektechnicalservices.com/" target="_blank" >Top Loading Washing Machines</a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" href="https://waseektechnicalservices.com/" target="_blank" >HVAC Maintenance</a>
-    </li>
-  </ul>
-</div>
-<div class="col-12 col-lg-6 col-xl-3 p-5">
-  <h3 class="h6 mb-3">Social Media</h3>
-  <ul class="nav flex-column">
-    <li class="nav-item">
-      <a class="nav-link link-secondary ps-0" aria-current="page" href="https://www.facebook.com/CoinOperatedWashingMachine" target="_blank">Facebook</a>
-      <a class="nav-link link-secondary ps-0" aria-current="page" href="https://www.instagram.com/waseektechnicalservice/" target="_blank">Instagram</a>
-            <a class="nav-link link-secondary ps-0" aria-current="page" href="https://www.linkedin.com/company/waseektechnicalservice/" target="_blank" >Linkedin</a>
-            <a class="nav-link link-secondary ps-0" aria-current="page" href="https://api.whatsapp.com/send/?phone=971564569346&text&type=phone_number&app_absent=0" target="_blank" >Whatsapp</a>
-    </li>
-  </ul>
-</div>
-</div>
-</div>
-
-<div class="container text-center py-3 small">Made by <a href="https://waseektechnicalservices.com/" class="link-fancy" target="_blank">Waseek Ahmad Technical Services</a>
-</div>
-</footer>
-
-    <script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/aos.js"></script>
- <script>
- AOS.init({
-   duration: 800, // values from 0 to 3000, with step 50ms
- });
- </script>
-
- <script>
-  let scrollpos = window.scrollY
-  const header = document.querySelector(".navbar")
-  const header_height = header.offsetHeight
-
-  const add_class_on_scroll = () => header.classList.add("scrolled", "shadow-sm")
-  const remove_class_on_scroll = () => header.classList.remove("scrolled", "shadow-sm")
-
-  window.addEventListener('scroll', function() {
-    scrollpos = window.scrollY;
-
-    if (scrollpos >= header_height) { add_class_on_scroll() }
-    else { remove_class_on_scroll() }
-
-    console.log(scrollpos)
-  })
+// Scroll to Top Smooth
+$(".floating-btn.scroll").click(function(e){
+  e.preventDefault();
+  $("html, body").animate({scrollTop: 0}, 600);
+});
 </script>
 
-  </body>
+</body>
 </html>
